@@ -28,6 +28,9 @@ dz_phone_number.is_mobile() # True
 dz_phone_number.is_landline() # a.k.a Fixe. False
 dz_phone_number.is_ooredoo() # True
 dz_phone_number.is_djezzy() # false
+dz_phone_number.is_annaba() # false
+
+DZPhoneNumber("038123456").is_annaba() # True
 ```
 
 ### equality
