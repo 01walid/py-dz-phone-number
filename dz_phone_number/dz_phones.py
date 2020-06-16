@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 from enum import Flag, IntFlag, unique
-from typing import List, Union, Callable
+from typing import List, Union, Callable, Optional, Any
 
 from .enums import CountryCode, LandlinePrefix, MobileOperator
 from .exceptions import InvalidDZPhoneNumber
@@ -22,10 +22,10 @@ class DZPhoneNumber:
 
     def __init__(
         self,
-        number: Union[str, None] = None,
-        indicative: Union[str, None] = "0",
-        operator_or_region: Union[str, None] = None,
-        suffix: Union[str, None] = None,
+        number: Optional[str] = None,
+        indicative: Optional[str] = "0",
+        operator_or_region: Optional[str] = None,
+        suffix: Optional[str] = None,
     ):
         number = number or f"{indicative}{operator_or_region}{suffix}"
         self._set_number(number)
@@ -40,7 +40,7 @@ class DZPhoneNumber:
         self,
         indicative: Union[str, None] = None,
         operator_or_region: Union[str, None] = None,
-        suffix: Union[str, None] = None,
+        suffix: Optional[str] = None,
     ) -> DZPhoneNumber:
         """
         Inspired from datetime.replace(month, day, hour, minute, second..)
@@ -83,7 +83,7 @@ class DZPhoneNumber:
         return self.from_string(number)
 
     @classmethod
-    def from_string(cls, number: str) -> cls:
+    def from_string(cls, number: str) -> DZPhoneNumber:
         """
         Acts like a named constructor. Accepts a number and returns a new instance
         of this class. 
@@ -159,7 +159,7 @@ class DZPhoneNumber:
 
     # Overrides of some magic (a.k.a dunder) methods
 
-    def __getattr__(self, name: str) -> Callable:
+    def __getattr__(self, name: str) -> Any:
         """
         This is some meta programming.
         We want a generic `is_SOMETHING` method defined on this object. Where
@@ -176,7 +176,7 @@ class DZPhoneNumber:
 
         raise AttributeError
 
-    def __eq__(self, other: DZPhoneNumber) -> bool:
+    def __eq__(self, other: object) -> bool:
         """
         This is what's known as operator overload for other languages.
         overriding this method tells the interpretter how to compare two 
@@ -184,6 +184,9 @@ class DZPhoneNumber:
         number1 == number2, where `number1` and `number2` are both an instance of
         `DZPhoneNumber`.
         """
+        if not isinstance(other, DZPhoneNumber):
+            raise TypeError("Expected object of type DZPhoneNumber got", type(other))
+
         return (
             self.operator_or_region.value == other.operator_or_region.value
             and self.suffix == other.suffix
