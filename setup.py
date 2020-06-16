@@ -9,7 +9,7 @@ dev_dependencies = ["pytest"]
 
 setup(
     name=PKG_NAME,
-    version="0.1",
+    version="1.0.0",
     license="MIT",
     author="Walid Ziouche",
     author_email="hi@walid.dev",
@@ -20,11 +20,13 @@ setup(
     extras_require={"dev": dev_dependencies},
     packages=find_packages(),
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Intended Audience :: Developers",
-        "Topic :: Software Development :: Build Tools",
+        "Intended Audience :: Telecommunications Industry",
+        "Topic :: Utilities",
+        "Typing :: Typed",
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate you support Python 3. These classifiers are *not*
         # checked by 'pip install'. See instead 'python_requires' below.
